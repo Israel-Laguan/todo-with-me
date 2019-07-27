@@ -1,0 +1,570 @@
+---
+openapi: 3.0.2
+info:
+  title: 💪📋✅TODO With Me 🏃‍♀️🏃‍♂️- API Version0
+  version: 1.0.1
+  description: |-
+    # ToDo  With Me 🙌⛑️
+    > The new way to move, but never alone!🤝
+
+    Get things done with the help of your friends! Subscribe
+    to our service to never fail again on your tasks.
+
+    Call your friends for help 🆘, and lets do that task together!�
+  contact:
+    name: Israel Laguan
+    email: israellaguan@gmail.com
+paths:
+  /subscriptions:
+    summary: Path used to manage the list of subscriptions.
+    description: The REST endpoint/path used to list and create zero or more `Subscription`
+      entities.  This path contains a `GET` and `POST` operation to perform the list
+      and create tasks, respectively.
+    get:
+      tags:
+      - Subscription
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+              examples:
+                Good Response:
+                  value:
+                    success: true
+                    msg: Operation Successfully
+                    data:
+                    - subscriptionId: "0"
+                      userId: "0"
+                      plan: FREE
+                      createdAt: 26-07-2019
+                Bad Response:
+                  value:
+                    success: false
+                    msg: Operation Failed
+                    errors:
+                    - errorType: Type
+                      message: Database refused the petition
+          description: Successful response - returns an array of `Subscription` entities.
+      operationId: getsubscriptions
+      summary: List All subscriptions
+      description: Gets a list of all `Subscription` entities.
+    post:
+      requestBody:
+        description: A new `Subscription` to be created.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subscription'
+        required: true
+      tags:
+      - Subscription
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+              examples:
+                Good Response:
+                  value:
+                    success: true
+                    msg: Operation Successfully
+                    data:
+                    - subscriptionId: "0"
+                      userId: "0"
+                      plan: FREE
+                      createdAt: 26-07-2019
+          description: Successful response.
+      operationId: createSubscription
+      summary: Create a Subscription
+      description: Creates a new instance of a `Subscription`.
+  /subscriptions/{subscriptionId}:
+    summary: Path used to manage a single Subscription.
+    description: The REST endpoint/path used to get, update, and delete single instances
+      of an `Subscription`.  This path contains `GET`, `PUT`, and `DELETE` operations
+      used to perform the get, update, and delete tasks, respectively.
+    get:
+      tags:
+      - Subscription
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+          description: Successful response - returns a single `Subscription`.
+      operationId: getSubscription
+      summary: Get a Subscription
+      description: Gets the details of a single instance of a `Subscription`.
+    put:
+      requestBody:
+        description: Updated `Subscription` information.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionResponse'
+        required: true
+      tags:
+      - Subscription
+      responses:
+        202:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+          description: Successful response.
+      operationId: updateSubscription
+      summary: Update a Subscription
+      description: Updates an existing `Subscription`.
+    delete:
+      tags:
+      - Subscription
+      responses:
+        204:
+          description: Successful response.
+      operationId: deleteSubscription
+      summary: Delete a Subscription
+      description: Deletes an existing `Subscription`.
+    parameters:
+    - name: subscriptionId
+      description: A unique identifier for a `Subscription`.
+      schema:
+        type: string
+      in: path
+      required: true
+  /todos:
+    summary: Path used to manage the list of todos.
+    description: The REST endpoint/path used to list and create zero or more `ToDo`
+      entities.  This path contains a `GET` and `POST` operation to perform the list
+      and create tasks, respectively.
+    get:
+      tags:
+      - ToDo
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToDoResponse'
+          description: Successful response - returns an array of `ToDo` entities.
+      operationId: gettodos
+      summary: List All todos
+      description: Gets a list of all `ToDo` entities.
+    post:
+      requestBody:
+        description: A new `ToDo` to be created.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToDo'
+        required: true
+      tags:
+      - ToDo
+      responses:
+        201:
+          description: Successful response.
+      operationId: createToDo
+      summary: Create a ToDo
+      description: Creates a new instance of a `ToDo`.
+  /todos/{todoId}:
+    summary: Path used to manage a single ToDo.
+    description: The REST endpoint/path used to get, update, and delete single instances
+      of an `ToDo`.  This path contains `GET`, `PUT`, and `DELETE` operations used
+      to perform the get, update, and delete tasks, respectively.
+    get:
+      tags:
+      - ToDo
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToDoResponse'
+          description: Successful response - returns a single `ToDo`.
+      operationId: getToDo
+      summary: Get a ToDo
+      description: Gets the details of a single instance of a `ToDo`.
+    put:
+      requestBody:
+        description: Updated `ToDo` information.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToDo'
+        required: true
+      tags:
+      - ToDo
+      responses:
+        202:
+          description: Successful response.
+      operationId: updateToDo
+      summary: Update a ToDo
+      description: Updates an existing `ToDo`.
+    delete:
+      tags:
+      - ToDo
+      responses:
+        204:
+          description: Successful response.
+      operationId: deleteToDo
+      summary: Delete a ToDo
+      description: Deletes an existing `ToDo`.
+    parameters:
+    - name: todoId
+      description: A unique identifier for a `ToDo`.
+      schema:
+        type: string
+      in: path
+      required: true
+  /users:
+    summary: Path used to manage the list of users.
+    description: The REST endpoint/path used to list and create zero or more `User`
+      entities.  This path contains a `GET` and `POST` operation to perform the list
+      and create tasks, respectively.
+    get:
+      tags:
+      - User
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: Successful response - returns an array of `User` entities.
+      operationId: getusers
+      summary: List All users
+      description: Gets a list of all `User` entities.
+  /users/{userId}:
+    summary: Path used to manage a single User.
+    description: The REST endpoint/path used to get, update, and delete single instances
+      of an `User`.  This path contains `GET`, `PUT`, and `DELETE` operations used
+      to perform the get, update, and delete tasks, respectively.
+    get:
+      tags:
+      - User
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: Successful response - returns a single `User`.
+      operationId: getUser
+      summary: Get a User
+      description: Gets the details of a single instance of a `User`.
+    put:
+      requestBody:
+        description: Updated `User` information.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      tags:
+      - User
+      responses:
+        202:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: Successful response.
+      operationId: updateUser
+      summary: Update a User
+      description: Updates an existing `User`.
+    delete:
+      tags:
+      - User
+      responses:
+        204:
+          description: Successful response.
+      operationId: deleteUser
+      summary: Delete a User
+      description: Deletes an existing `User`.
+    parameters:
+    - name: userId
+      description: A unique identifier for a `User`.
+      schema:
+        type: string
+      in: path
+      required: true
+  /users/login:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+        required: true
+      tags:
+      - User
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: User Login Succesfully
+      operationId: postuserlogin
+      summary: Validate your credentials
+      description: Validate your credentials
+  /users/signup:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      tags:
+      - User
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: User Sign Up Successfully
+      operationId: postusersignup
+      summary: Sign Up to our App
+components:
+  schemas:
+    ToDo:
+      title: Root Type for ToDo
+      description: 📋✅ Tasks to be completed on the future
+      type: object
+      properties:
+        userId:
+          type: string
+        users:
+          type: array
+          items:
+            type: object
+            properties:
+              userId:
+                type: string
+              isComplete:
+                type: boolean
+        isComplete:
+          type: boolean
+        task:
+          type: string
+        comment:
+          type: string
+      example:
+        userId: "1323"
+        users:
+        - userId: "646"
+          isComplete: false
+        isComplete: false
+        task: finish the ToDo With Me App
+        comment: We are delayed.
+    Subscription:
+      title: Root Type for Subscription
+      description: 🗓🔐Subscription to premium features 🛒
+      type: object
+      properties:
+        userId:
+          type: string
+        plan:
+          type: string
+      example:
+        userId: "641631"
+        plan: FREE
+    User:
+      title: Root Type for User
+      description: 👤 People using our app 📱
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: Israel Laguan
+        email: israellaguan@gmail.com
+        password: superSecretPassword
+    UserLogin:
+      title: Root Type for UserLogin
+      description: ""
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: israellaguan@gmail.com
+        password: superSecretPassword
+    UserData:
+      title: Root Type for UserData
+      description: ""
+      type: object
+      properties:
+        userId:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      example:
+        userId: "1"
+        name: Israel Laguan
+        email: israellaguan@gmail.com
+        password: superSecretPassword
+        createdAt: 25-07-2019
+        updatedAt: 26-07-2019
+    SubscriptionReturn:
+      title: Root Type for SubscriptionReturn
+      description: ""
+      type: object
+      properties:
+        subscriptionId:
+          type: string
+        userId:
+          type: string
+        plan:
+          type: string
+        createdAt:
+          type: string
+      example:
+        subscriptionId: "0"
+        userId: "0"
+        plan: FREE
+        createdAt: 26-07-2019
+    SubscriptionResponse:
+      title: Root Type for SubscriptionResponse
+      description: The data to send to client
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionReturn'
+      example:
+        success: true
+        msg: Operation Successfully
+        data:
+        - subscriptionId: "0"
+          userId: "0"
+          plan: FREE
+          createdAt: 26-07-2019
+    ToDoReturn:
+      title: Root Type for ToDoReturn
+      description: ""
+      type: object
+      properties:
+        todoId:
+          type: string
+        userId:
+          type: string
+        users:
+          type: array
+          items:
+            type: object
+            properties:
+              userId:
+                type: string
+              isComplete:
+                type: boolean
+        isComplete:
+          type: boolean
+        task:
+          type: string
+        comment:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      example:
+        todoId: "3131"
+        userId: "1323"
+        users:
+        - userId: "646"
+          isComplete: false
+        isComplete: false
+        task: finish the ToDo With Me App
+        comment: We are delayed.
+        createdAt: 26-07-2019
+        updatedAt: 27-07-2019
+    ToDoResponse:
+      title: Root Type for ToDoResponse
+      description: The info to send to user
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ToDoReturn'
+      example:
+        success: true
+        msg: The operation was successfully
+        data:
+        - todoId: "1345"
+          userId: "1323"
+          users:
+          - userId: "646"
+            isComplete: false
+          isComplete: true
+          task: finish the ToDo With Me App
+          comment: On time.
+          createdAt: 26-07-2019
+          updatedAt: 27-07-2019
+    UserResponse:
+      title: Root Type for UserResponse
+      description: ""
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              userId:
+                type: string
+              name:
+                type: string
+              email:
+                type: string
+              createdAt:
+                type: string
+              updatedAt:
+                type: string
+      example:
+        success: true
+        msg: Operation Successfully
+        data:
+        - userId: "1"
+          name: Israel Laguan
+          email: israellaguan@gmail.com
+          createdAt: 25-07-2019
+          updatedAt: 26-07-2019
+tags:
+- name: Subscription
+  description: 🗓🔐Subscription to premium features 🛒
+- name: ToDo
+  description: 📋✅ Tasks to be completed on the future
+- name: User
+  description: 👤 People using our app 📱
