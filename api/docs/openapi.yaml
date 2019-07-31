@@ -1,8 +1,8 @@
 ---
 openapi: 3.0.2
 info:
-  title: 💪📋✅TODO With Me 🏃‍♀️🏃‍♂️- API Version0
-  version: 1.0.1
+  title: 💪📋✅ToDo With Me 🏃‍♀️🏃‍♂️- API Version1
+  version: 1.1.3
   description: |-
     # ToDo  With Me 🙌⛑️
     > The new way to move, but never alone!🤝
@@ -23,29 +23,29 @@ paths:
     get:
       tags:
       - Subscription
+      parameters:
+      - name: offset
+        description: The number of items to skip before starting to collect the result
+          set
+        schema:
+          type: integer
+        in: query
+      - name: limit
+        description: The numbers of items to return
+        schema:
+          type: integer
+        in: query
+      - name: search
+        description: Query to match for search on the DB
+        schema:
+          type: string
+        in: query
       responses:
         200:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SubscriptionResponse'
-              examples:
-                Good Response:
-                  value:
-                    success: true
-                    msg: Operation Successfully
-                    data:
-                    - subscriptionId: "0"
-                      userId: "0"
-                      plan: FREE
-                      createdAt: 26-07-2019
-                Bad Response:
-                  value:
-                    success: false
-                    msg: Operation Failed
-                    errors:
-                    - errorType: Type
-                      message: Database refused the petition
+                $ref: '#/components/schemas/SubscriptionsResponse'
           description: Successful response - returns an array of `Subscription` entities.
       operationId: getsubscriptions
       summary: List All subscriptions
@@ -66,16 +66,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SubscriptionResponse'
-              examples:
-                Good Response:
-                  value:
-                    success: true
-                    msg: Operation Successfully
-                    data:
-                    - subscriptionId: "0"
-                      userId: "0"
-                      plan: FREE
-                      createdAt: 26-07-2019
           description: Successful response.
       operationId: createSubscription
       summary: Create a Subscription
@@ -134,86 +124,117 @@ paths:
         type: string
       in: path
       required: true
-  /todos:
-    summary: Path used to manage the list of todos.
-    description: The REST endpoint/path used to list and create zero or more `ToDo`
+  /task:
+    summary: Path used to manage the list of Tasks.
+    description: The REST endpoint/path used to list and create zero or more `Task`
       entities.  This path contains a `GET` and `POST` operation to perform the list
       and create tasks, respectively.
     get:
       tags:
-      - ToDo
+      - Task
+      parameters:
+      - name: offset
+        description: The number of items to skip before starting to collect the result
+          set
+        schema:
+          type: integer
+        in: query
+      - name: limit
+        description: The numbers of items to return
+        schema:
+          type: integer
+        in: query
+      - name: search
+        description: Query to match for search on the DB
+        schema:
+          type: string
+        in: query
       responses:
         200:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ToDoResponse'
-          description: Successful response - returns an array of `ToDo` entities.
-      operationId: gettodos
-      summary: List All todos
-      description: Gets a list of all `ToDo` entities.
+                $ref: '#/components/schemas/TasksResponse'
+          description: Successful response - returns an array of `Task` entities.
+      operationId: getTasks
+      summary: List All Tasks
+      description: Gets a list of all `Task` entities.
     post:
       requestBody:
-        description: A new `ToDo` to be created.
+        description: A new `Task` to be created.
         content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Task'
           application/json:
             schema:
-              $ref: '#/components/schemas/ToDo'
+              $ref: '#/components/schemas/Task'
         required: true
       tags:
-      - ToDo
+      - Task
       responses:
         201:
-          description: Successful response.
-      operationId: createToDo
-      summary: Create a ToDo
-      description: Creates a new instance of a `ToDo`.
-  /todos/{todoId}:
-    summary: Path used to manage a single ToDo.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+          description: Successfully Created - returns a single `Task`.
+      operationId: createTask
+      summary: Create a Task
+      description: Creates a new instance of a `Task`.
+  /task/{taskId}:
+    summary: Path used to manage a single Task.
     description: The REST endpoint/path used to get, update, and delete single instances
-      of an `ToDo`.  This path contains `GET`, `PUT`, and `DELETE` operations used
+      of an `Task`.  This path contains `GET`, `PUT`, and `DELETE` operations used
       to perform the get, update, and delete tasks, respectively.
     get:
       tags:
-      - ToDo
+      - Task
       responses:
         200:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ToDoResponse'
-          description: Successful response - returns a single `ToDo`.
-      operationId: getToDo
-      summary: Get a ToDo
-      description: Gets the details of a single instance of a `ToDo`.
+                $ref: '#/components/schemas/TaskResponse'
+          description: Successful response - returns a single `Task`.
+      operationId: getTask
+      summary: Get a Task
+      description: Gets the details of a single instance of a `Task`.
     put:
       requestBody:
-        description: Updated `ToDo` information.
+        description: Updated `Task` information.
         content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Task'
           application/json:
             schema:
-              $ref: '#/components/schemas/ToDo'
+              $ref: '#/components/schemas/Task'
         required: true
       tags:
-      - ToDo
+      - Task
       responses:
         202:
-          description: Successful response.
-      operationId: updateToDo
-      summary: Update a ToDo
-      description: Updates an existing `ToDo`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+          description: Successfully Updated - returns a single `Task`.
+      operationId: updateTask
+      summary: Update a Task
+      description: Updates an existing `Task`.
     delete:
       tags:
-      - ToDo
+      - Task
       responses:
         204:
           description: Successful response.
-      operationId: deleteToDo
-      summary: Delete a ToDo
-      description: Deletes an existing `ToDo`.
+      operationId: deleteTask
+      summary: Delete a Task
+      description: Deletes an existing `Task`.
     parameters:
-    - name: todoId
-      description: A unique identifier for a `ToDo`.
+    - name: taskId
+      description: A unique identifier for a `Task`.
       schema:
         type: string
       in: path
@@ -226,12 +247,29 @@ paths:
     get:
       tags:
       - User
+      parameters:
+      - name: offset
+        description: The number of items to skip before starting to collect the result
+          set
+        schema:
+          type: integer
+        in: query
+      - name: limit
+        description: The numbers of items to return
+        schema:
+          type: integer
+        in: query
+      - name: search
+        description: Query to match for search on the DB
+        schema:
+          type: string
+        in: query
       responses:
         200:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserResponse'
+                $ref: '#/components/schemas/UsersResponse'
           description: Successful response - returns an array of `User` entities.
       operationId: getusers
       summary: List All users
@@ -258,6 +296,9 @@ paths:
       requestBody:
         description: Updated `User` information.
         content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
           application/json:
             schema:
               $ref: '#/components/schemas/User'
@@ -294,6 +335,9 @@ paths:
     post:
       requestBody:
         content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
           application/json:
             schema:
               $ref: '#/components/schemas/UserLogin'
@@ -305,7 +349,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserResponse'
+                $ref: '#/components/schemas/LoginResponse'
           description: User Login Succesfully
       operationId: postuserlogin
       summary: Validate your credentials
@@ -314,6 +358,9 @@ paths:
     post:
       requestBody:
         content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
           application/json:
             schema:
               $ref: '#/components/schemas/User'
@@ -324,42 +371,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserResponse'
+                $ref: '#/components/schemas/SignupResponse'
           description: User Sign Up Successfully
       operationId: postusersignup
       summary: Sign Up to our App
 components:
   schemas:
-    ToDo:
-      title: Root Type for ToDo
-      description: 📋✅ Tasks to be completed on the future
-      type: object
-      properties:
-        userId:
-          type: string
-        users:
-          type: array
-          items:
-            type: object
-            properties:
-              userId:
-                type: string
-              isComplete:
-                type: boolean
-        isComplete:
-          type: boolean
-        task:
-          type: string
-        comment:
-          type: string
-      example:
-        userId: "1323"
-        users:
-        - userId: "646"
-          isComplete: false
-        isComplete: false
-        task: finish the ToDo With Me App
-        comment: We are delayed.
     Subscription:
       title: Root Type for Subscription
       description: 🗓🔐Subscription to premium features 🛒
@@ -367,62 +384,10 @@ components:
       properties:
         userId:
           type: string
+          example: 31316
         plan:
           type: string
-      example:
-        userId: "641631"
-        plan: FREE
-    User:
-      title: Root Type for User
-      description: 👤 People using our app 📱
-      type: object
-      properties:
-        name:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
-      example:
-        name: Israel Laguan
-        email: israellaguan@gmail.com
-        password: superSecretPassword
-    UserLogin:
-      title: Root Type for UserLogin
-      description: ""
-      type: object
-      properties:
-        email:
-          type: string
-        password:
-          type: string
-      example:
-        email: israellaguan@gmail.com
-        password: superSecretPassword
-    UserData:
-      title: Root Type for UserData
-      description: ""
-      type: object
-      properties:
-        userId:
-          type: string
-        name:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-      example:
-        userId: "1"
-        name: Israel Laguan
-        email: israellaguan@gmail.com
-        password: superSecretPassword
-        createdAt: 25-07-2019
-        updatedAt: 26-07-2019
+          example: FREE
     SubscriptionReturn:
       title: Root Type for SubscriptionReturn
       description: ""
@@ -430,17 +395,19 @@ components:
       properties:
         subscriptionId:
           type: string
+          example: 313464
         userId:
           type: string
+          example: 513464
         plan:
+          enum:
+          - FREE
+          - PREMIUM
           type: string
+          example: FREE
         createdAt:
           type: string
-      example:
-        subscriptionId: "0"
-        userId: "0"
-        plan: FREE
-        createdAt: 26-07-2019
+          example: 2019-07-26T16:12:58.417Z
     SubscriptionResponse:
       title: Root Type for SubscriptionResponse
       description: The data to send to client
@@ -448,86 +415,205 @@ components:
       properties:
         success:
           type: boolean
+          example: true
         msg:
           type: string
+          example: Subscription Successfully retrieved
+        isList:
+          type: boolean
+          example: false
+        data:
+          $ref: '#/components/schemas/SubscriptionReturn'
+    SubscriptionsResponse:
+      title: Root Type for SubscriptionResponse
+      description: The data to send to client
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        msg:
+          type: string
+          example: Subscription Successfully retrieved
+        isList:
+          type: boolean
+          example: true
         data:
           type: array
           items:
             $ref: '#/components/schemas/SubscriptionReturn'
-      example:
-        success: true
-        msg: Operation Successfully
-        data:
-        - subscriptionId: "0"
-          userId: "0"
-          plan: FREE
-          createdAt: 26-07-2019
-    ToDoReturn:
-      title: Root Type for ToDoReturn
-      description: ""
+    Task:
+      title: Root Type for Task
+      description: 📋✅ Tasks to be completed on the future
       type: object
       properties:
-        todoId:
-          type: string
         userId:
           type: string
-        users:
+          example: "1331"
+        friends:
           type: array
           items:
             type: object
             properties:
               userId:
                 type: string
+                example: 321354
               isComplete:
                 type: boolean
+                example: false
         isComplete:
           type: boolean
+          example: false
         task:
           type: string
+          example: finish the ToDo With Me App
         comment:
           type: string
+          example: We are delayed.
+        dueDate:
+          type: string
+          example: 2019-07-31T16:12:58.417Z
+    TaskReturn:
+      title: Root Type for TaskReturn
+      description: ""
+      type: object
+      properties:
+        TaskId:
+          type: string
+          example: 1312
+        userId:
+          type: string
+          example: 235
+        friends:
+          type: array
+          items:
+            type: object
+            properties:
+              userId:
+                type: string
+                example: 3138
+              isComplete:
+                type: boolean
+                example: false
+        isComplete:
+          type: boolean
+          example: false
+        task:
+          type: string
+          example: finish the ToDo With Me App
+        comment:
+          type: string
+          example: We are delayed.
+        dueDate:
+          type: string
+          example: 2019-07-31T16:12:58.417Z
         createdAt:
           type: string
+          example: 2019-07-26T16:12:58.417Z
         updatedAt:
           type: string
-      example:
-        todoId: "3131"
-        userId: "1323"
-        users:
-        - userId: "646"
-          isComplete: false
-        isComplete: false
-        task: finish the ToDo With Me App
-        comment: We are delayed.
-        createdAt: 26-07-2019
-        updatedAt: 27-07-2019
-    ToDoResponse:
-      title: Root Type for ToDoResponse
+          example: 2019-07-27T16:12:58.417Z
+    TasksResponse:
+      title: Root Type for TaskResponse
       description: The info to send to user
       type: object
       properties:
         success:
           type: boolean
+          example: true
         msg:
           type: string
+          example: Operation Ok
+        isList:
+          type: boolean
+          example: true
         data:
           type: array
           items:
-            $ref: '#/components/schemas/ToDoReturn'
-      example:
-        success: true
-        msg: The operation was successfully
+            $ref: '#/components/schemas/TaskReturn'
+    TaskResponse:
+      title: Root Type for TaskResponse
+      description: The info to send to user
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        msg:
+          type: string
+          example: Operation Ok
+        isList:
+          type: boolean
+          example: false
         data:
-        - todoId: "1345"
-          userId: "1323"
-          users:
-          - userId: "646"
-            isComplete: false
-          isComplete: true
-          task: finish the ToDo With Me App
-          comment: On time.
-          createdAt: 26-07-2019
-          updatedAt: 27-07-2019
+          $ref: '#/components/schemas/TaskReturn'
+    User:
+      title: Root Type for User
+      description: 👤 People using our app 📱
+      type: object
+      properties:
+        name:
+          type: string
+          example: Israel Laguan
+        email:
+          type: string
+          example: israellaguan@gmail.com
+        password:
+          type: string
+          example: superSecretPassword
+        friends:
+          type: array
+          items:
+            type: object
+            properties:
+              userId:
+                type: string
+                example: 316854
+              isComplete:
+                type: boolean
+                example: false
+    UserLogin:
+      title: Root Type for UserLogin
+      description: ""
+      type: object
+      properties:
+        email:
+          type: string
+          example: israellaguan@gmail.com
+        password:
+          type: string
+          example: superSecretPassword
+    UserData:
+      title: Root Type for UserData
+      description: ""
+      type: object
+      properties:
+        userId:
+          type: string
+          example: 6131
+        name:
+          type: string
+          example: Israel Laguan
+        email:
+          type: string
+          example: israellaguan@gmail.com
+        friends:
+          type: array
+          items:
+            type: object
+            properties:
+              userId:
+                type: string
+                example: 161684
+              name:
+                type: string
+                example: Steven
+        createdAt:
+          type: string
+          example: 2019-07-25T16:12:58.417Z
+        updatedAt:
+          type: string
+          example: 2019-07-26T16:12:58.417Z
     UserResponse:
       title: Root Type for UserResponse
       description: ""
@@ -535,36 +621,69 @@ components:
       properties:
         success:
           type: boolean
+          example: true
         msg:
           type: string
+          example: Operation Ok
+        isList:
+          type: boolean
+          example: false
+        data:
+          $ref: '#/components/schemas/UserData'
+    UsersResponse:
+      title: Response  with list of  Users
+      description: ""
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        msg:
+          type: string
+          example: List of Users Successfully retrieved
+        isList:
+          type: boolean
+          example: true
         data:
           type: array
           items:
-            type: object
-            properties:
-              userId:
-                type: string
-              name:
-                type: string
-              email:
-                type: string
-              createdAt:
-                type: string
-              updatedAt:
-                type: string
-      example:
-        success: true
-        msg: Operation Successfully
+            $ref: '#/components/schemas/UserData'
+    LoginResponse:
+      title: Response  of Login
+      description: ""
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        msg:
+          type: string
+          example: You are log in
+        isList:
+          type: boolean
+          example: false
         data:
-        - userId: "1"
-          name: Israel Laguan
-          email: israellaguan@gmail.com
-          createdAt: 25-07-2019
-          updatedAt: 26-07-2019
+          $ref: '#/components/schemas/UserData'
+    SignupResponse:
+      title: Response of SignUp
+      description: ""
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        msg:
+          type: string
+          example: Youve been Signed up
+        isList:
+          type: boolean
+          example: false
+        data:
+          $ref: '#/components/schemas/UserData'
 tags:
 - name: Subscription
   description: 🗓🔐Subscription to premium features 🛒
-- name: ToDo
+- name: Task
   description: 📋✅ Tasks to be completed on the future
 - name: User
   description: 👤 People using our app 📱
