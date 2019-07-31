@@ -1,0 +1,39 @@
+{
+  "subscriptions": [
+    {
+      "subscriptionId": 313464,
+      "userId": 513464,
+      "plan": "FREE",
+      "createdAt": "2019-07-26T16:12:58.417Z"
+    }
+  ],
+  "tasks":[
+    {
+    "createdAt" : "2019-07-26T16:12:58.417Z",
+    "TaskId" : "1312",
+    "task" : "finish the ToDo With Me App",
+    "dueDate" : "2019-07-31T16:12:58.417Z",
+    "comment" : "We are delayed.",
+    "userId" : "235",
+    "friends" : [ {
+      "userId" : "3138",
+      "isComplete" : false
+    } ],
+    "isComplete" : false,
+    "updatedAt" : "2019-07-27T16:12:58.417Z"
+  }
+  ],
+  "user": [
+    {
+    "createdAt" : "2019-07-25T16:12:58.417Z",
+    "name" : "Israel Laguan",
+    "userId" : "6131",
+    "email" : "israellaguan@gmail.com",
+    "friends" : [ {
+      "name" : "Steven",
+      "userId" : "161684"
+    } ],
+    "updatedAt" : "2019-07-26T16:12:58.417Z"
+  }
+  ]
+}
